@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import pl.idoru.draw.Male;
+import pl.idoru.draw.Female;
 
 
 class JavaPaintUI extends JFrame {
@@ -95,12 +96,15 @@ class JavaPaintUI extends JFrame {
     //class jPanel2 extends JPanel {
     class Panel2 extends JPanel {
         private BufferedImage buffer;
-        private Male male = new Male("Rafal");
-    	
+        private Male male = new Male("Chaton");
+        private Female female = new Female("Biche");
    
+        
+        
     	private int size = 400;
+    	private Color colors[] = {new Color(0,40, 0),new Color(60,10, 0)};
     	
-    	
+    	private Human people[] = {male, female};
     	
         Panel2() {
             // set a preferred size for the custom panel.
@@ -129,34 +133,37 @@ class JavaPaintUI extends JFrame {
         
         
         public void moveNext(Graphics g){ 
+            for (int i=0;i < people.length;i++) {
+                
+            	people[i].update();            
+            
         	
-        	this.male.update();
-            Color color = new Color(0,40, 0);
-            g.setColor(color);
-            System.out.println("W"+this.size +"H"+this.size);
-            if (this.male.locX > this.size-40)
-            	this.male.locX = this.size-40;
+         
+            //System.out.println("W"+this.size +"H"+this.size);
+            if (people[i].locX > this.size-40)
+            	people[i].locX = this.size-40;
             
             
-            if (this.male.locY > this.size-40)
-            	this.male.locY = this.size-40;
+            if (people[i].locY > this.size-40)
+            	people[i].locY = this.size-40;
           
-            if (this.male.locX-40<0)
-            	this.male.locX = 40;
+            if (people[i].locX-40<0)
+            	people[i].locX = 40;
             
             
-            if (this.male.locY-40<0)
-            	this.male.locY = 40;
+            if (people[i].locY-40<0)
+            	people[i].locY = 40;
+            }
             
             g.clearRect(0, 0, getWidth(), getHeight());
             
             
-            
-            
-            g.fillRect(this.male.locX, this.male.locY, 20, 20);
+            for (int i=0;i < people.length;i++) {
+                   g.setColor(colors[people[i].sex]);
+            	g.fillRect(people[i].locX, people[i].locY, 20, 20);
         	
-        	System.out.println("locX " + this.male.locX + " locY " + this.male.locY);
-            
+            	System.out.println(i + " locX " + people[i].locX + " locY " + people[i].locY);
+            }
             
         	/*
             int r = rand.nextInt(4);        
