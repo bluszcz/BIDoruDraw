@@ -9,7 +9,8 @@ import javax.swing.border.*;
 
 import pl.idoru.draw.Male;
 import pl.idoru.draw.Female;
-
+import java.util.ArrayList;
+import java.util.Random;
 
 class JavaPaintUI extends JFrame {
 
@@ -96,25 +97,31 @@ class JavaPaintUI extends JFrame {
     //class jPanel2 extends JPanel {
     class Panel2 extends JPanel {
         private BufferedImage buffer;
-        private Male male = new Male("Chaton");
-        private Female female = new Female("Biche");
+        public Male male = new Male("Chaton");
+        public Female female = new Female("Biche");
+        public Female deer= new Female("Deer");
+        public People ppl;
+        private Random rnd = new Random();
    
         
-        
-    	private int size = 400;
-    	private Color colors[] = {new Color(0,40, 0),new Color(60,10, 0)};
+    	private int size = Config.size;
+    	private Color colors[] = {new Color(0,240, 0),new Color(200,10, 0)};
     	
-    	private Human people[] = {male, female};
-    	
+    	public Human people2[] = {male, female, deer};
+    	public ArrayList <Human> people = new ArrayList<Human>();
         Panel2() {
             // set a preferred size for the custom panel.
-            
-        	
+            ppl = new People();
+            people.add(male);
+            people.add(female);
+            people.add(deer);
+            //this.ppl.people.add(this.male);
+            //this.ppl.people.add(this.female);
             this.buffer = new BufferedImage(this.size, this.size, BufferedImage.TYPE_INT_ARGB);
             setBackground(Color.BLACK); 
-        	setPreferredSize(new Dimension(820,620));
+        	setPreferredSize(new Dimension(Config.size+100,Config.size+100));
         	setDoubleBuffered(false);
-            new Timer(200, new ActionListener() {
+            new Timer(1, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     moveNext(buffer.getGraphics());
@@ -133,64 +140,117 @@ class JavaPaintUI extends JFrame {
         
         
         public void moveNext(Graphics g){ 
-            for (int i=0;i < people.length;i++) {
-                
-            	people[i].update();            
+        	int colormod=0;
+            for (int i=0;i < people.size();i++) {
+               
+            	people.get(i).update();            
             
         	
          
             //System.out.println("W"+this.size +"H"+this.size);
-            if (people[i].locX > this.size-40)
-            	people[i].locX = this.size-40;
+            if (people.get(i).locX > this.size-40)
+            	people.get(i).locX = this.size-40;
             
             
-            if (people[i].locY > this.size-40)
-            	people[i].locY = this.size-40;
+            if (people.get(i).locY > this.size-40)
+            	people.get(i).locY = this.size-40;
           
-            if (people[i].locX-40<0)
-            	people[i].locX = 40;
+            if (people.get(i).locX-40<0)
+            	people.get(i).locX = 40;
             
             
-            if (people[i].locY-40<0)
-            	people[i].locY = 40;
+            if (people.get(i).locY-40<0)
+            	people.get(i).locY = 40;
             }
             
             g.clearRect(0, 0, getWidth(), getHeight());
             
             
-            for (int i=0;i < people.length;i++) {
-                   g.setColor(colors[people[i].sex]);
-            	g.fillRect(people[i].locX, people[i].locY, 20, 20);
+            for (int i=0;i < people.size();i++) {
+                   g.setColor(colors[people.get(i).gender]);
+                   
+                   //Color c= new Color(0,240, 0);
+                   //c.
+                   
+                   if (i<150) {
+                	   colormod=i;
+                	   
+                   } else
+                	   
+                   {
+                	   colormod = rnd.nextInt(120) + 100-1;
+                   }
+                   
+                   
+                  Color c = new Color(0,0,0); 
+                  if (people.get(i).gender==0) {
+                	  c= new Color(100,100+colormod/4, 255-colormod);
+               }
+                  if (people.get(i).gender==1) {
+                	  c= new Color(255-colormod,255-colormod,50);
+                	 
+                  } 
+                  
+                  g.setColor(c);
+                   
+                   
+            	g.fillRect(people.get(i).locX, people.get(i).locY, 7, 7);
         	
-            	System.out.println(i + " locX " + people[i].locX + " locY " + people[i].locY);
+            	//System.out.println(i + " locX " + people.get(i).locX + " locY " + people.get(i).locY);
+            	
+            
             }
             
-        	/*
-            int r = rand.nextInt(4);        
-
-            switch (r) {
-            case 1:
-                h += ruut;
-                wallTest();
-                break;
-            case 2:
-                h -= ruut;
-                wallTest();
-                break;
-            case 3:
-                w -= ruut;
-                wallTest();
-                break;
-            case 4:
-                w -= ruut;
-                wallTest();
-                break;
+            int distance;
+            
+            //distance = (int) ppl.getDistance(male, female);
+            
+            
+            //if (distance<20) {
+            //	people.add(ppl.getRandomHuman());
+            	
+            	
+            //}
+            
+            
+            for (int cc=0;cc<people.size();cc++) {
+            	System.out.println("cc: "+cc);
+            	for (int dd=0;dd<people.size();dd++) {
+                	if (cc!=dd) {
+                		System.out.println("dd:"+dd);
+                		System.out.println(people.get(cc).gender + " " + people.get(dd).gender);
+                		if (people.get(cc).gender != people.get(dd).gender) {
+                  			distance = (int) ppl.getDistance(people.get(cc), people.get(dd));
+                			System.out.println("distance: "+distance);                            
+                	        if (distance<20) {
+                            	people.add(ppl.getRandomHuman());
+                            	cc= people.size();
+                            	dd = cc;
+                            	break;
+                            }
+                		}
+                	}
+                } 
+            	
+            	
+            	if (people.size()>10000) {
+            		if (cc<people.size() && people.get(cc).age>Config.ageMax/100) {
+                		people.remove(people.get(cc));            		
+                	}	
+            		
+            		
+            	}
+            	else {
+            	if (cc<people.size() && people.get(cc).age>Config.ageMax) {
+            		people.remove(people.get(cc));            		
+            	}
+            	}
             }
-
-            color = new Color(0, rand.nextInt(255-50)+50, 0);
-            g.setColor(color);
-            g.fillRect(w, h, ruut, ruut);
-            */
+            
+            
+            
+            
+            
             repaint();
         }
     }

@@ -7,6 +7,8 @@ public abstract class Human implements HumanInterface {
 	public String name = "";
 	
 	
+	public int age = 0;
+	
 	/*
 	 Genders
 	 0 - male
@@ -66,7 +68,7 @@ public abstract class Human implements HumanInterface {
 	 
 	 public void update() {
 		 this.stepper--;
-		 
+		 this.age++;
 		 if (this.stepper==0) {
 		      this.regenerate();		 
 		 }		 
@@ -84,8 +86,8 @@ public abstract class Human implements HumanInterface {
 	
 	public void setNewDirection(){
 		System.out.println("dirX" + this.directionX +  "dirY" + this.directionY);
-	      this.directionX = this.getNegate(randomGenerator.nextInt(5));
-	      this.directionY = this.getNegate(randomGenerator.nextInt(5));
+	      this.directionX = this.getNegate(randomGenerator.nextInt(5))-randomGenerator.nextInt(3);
+	      this.directionY = this.getNegate(randomGenerator.nextInt(5))-randomGenerator.nextInt(3);
 		
 	};
 	public void setNewTrend(){

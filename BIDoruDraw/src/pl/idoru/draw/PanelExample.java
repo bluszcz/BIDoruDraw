@@ -25,7 +25,7 @@ public class PanelExample{
 
         // The other bits and pieces that make our program a bit more stable.
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 900);
+        frame.setSize(10, 10);
         frame.setVisible(true);
     }
 

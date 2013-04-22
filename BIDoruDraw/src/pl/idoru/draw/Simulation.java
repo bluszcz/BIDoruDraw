@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
 import pl.idoru.draw.JavaPaintUI;
 
 
-public class SwingExample implements Runnable {
+public class Simulation implements Runnable {
  
     @Override
     public void run() {
@@ -28,8 +28,8 @@ public class SwingExample implements Runnable {
         // Add a layout manager so that the button is not placed on top of the label
         f.setLayout(new FlowLayout());
         // Add a label and a button
-        f.add(new JLabel("Simulate me"));
-        f.add(new JButton("FAKE BUTTON"));
+        //f.add(new JLabel("Simulate me"));
+        //+++f.add(new JButton("FAKE BUTTON"));
         // Arrange the components inside the window
         f.pack();
         // By default, the window is not visible. Make it visible.
@@ -37,7 +37,7 @@ public class SwingExample implements Runnable {
     }
  
     public static void main(String[] args) {
-        SwingExample se = new SwingExample();
+        Simulation se = new Simulation();
         // Schedules the application to be run at the correct time in the event queue.
         SwingUtilities.invokeLater(se);
     }
